@@ -7,6 +7,8 @@ const configutation = {
 };
 
 lambda(configutation, (input, output) => {
-  const spaces = (Number(input.url.slice(1)) | 0) || 2;
+  const parsedSpaces = Number(input.url.slice(1));
+  const spaces = isNaN(parsedSpaces) ? 2 : Math.max(parsedSpaces, 4);
+  
   output.send(JSON.stringify(input.body, null, spaces));
 });
