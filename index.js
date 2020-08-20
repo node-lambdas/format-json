@@ -7,8 +7,10 @@ const configutation = {
 };
 
 lambda(configutation, (input, output) => {
-  const parsedSpaces = input.url !== '/' ? Number(input.url.slice(1)) : 2;
-  const spaces = isNaN(parsedSpaces) ? 2 : Math.min(parsedSpaces, 4);
-  
-  output.send(JSON.stringify(input.body, null, spaces));
+  const format = input.url.slice(1);
+  const formatAsNumber = Number(format);
+  const spaces = !isNaN(formatAsNumber) && formatAsNumber >= 0 && formatAsNumber <= 4 ? formatAsNumber : 2;
+  const char = format === 'TAB' ? '\t' : '';
+
+  output.send(JSON.stringify(input.body, null, char || spaces));
 });
